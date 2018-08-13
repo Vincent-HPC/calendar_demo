@@ -1,19 +1,31 @@
 $(document).ready(function () {
 
-  $('.date-block').dblclick(function (e) {
-    $('#info-panel').addClass('open').css({
-      top: e.pageY + 'px',
-      left: e.pageX + 'px',
-    }).find('.title [contenteditable]').focus();
+  var panel = {
+    el: '#info-panel', //el means element
+    open: function (isNew, e) {
+      $(panel.el).addClass('open').css({
+        top: e.pageY + 'px',
+        left: e.pageX + 'px',
+      }).find('.title [contenteditable]').focus();
 
-    $('#info-panel').addClass('new').removeClass('update');
+      if (isNew)
+        $(panel.el).addClass('new').removeClass('update');
+      else
+        $(panel.el).addClass('update').removeClass('new');
+    },
+    close: function () {
+      $(panel.el).removeClass('open');
+    },
+  };
 
-  });
-
-  $('.event').dblclick(function (e) {
-
-  })
-
+  $('.date-block')
+    .dblclick(function (e) {
+      panel.open(true, e);
+    })
+    .on('dblclick', '.event', function (e) {
+      e.stopPropagation();
+      panel.open(false, e);
+    });
 
   $('#info-panel')
     .on('click', 'button', function (e) {
@@ -26,7 +38,7 @@ $(document).ready(function () {
       }
 
       if ($(this).is('.cancel')) {
-        $('#info-panel').removeClass('open');
+        panel.close();
       }
 
       if ($(this).is('.delete')) {
