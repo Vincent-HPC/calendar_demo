@@ -23,6 +23,7 @@
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   height: 15vh;
+  padding: 4px;
 }
 
 .date-block.empty {
@@ -33,3 +34,74 @@
 
 
 
+/* info-panel */
+#info-panel {
+  position: fixed;
+    top: 60px;
+    right: 60px;
+    width: 280px;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+#info-panel .close {
+  position: relative;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+#info-panel label {
+  font-size: .8rem;
+  color: #ccc;
+}
+
+#info-panel .title, #info-panel .time-picker {
+  border-bottom: 1px solid #aaa;
+}
+
+#info-panel .title,  #info-panel .time-picker, #info-panel .description {
+  padding: 10px;
+}
+
+.selected-date {
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+#description {
+  width: 100%;
+}
+
+#info-panel button{
+  display: none;
+  border: none;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+#info-panel.new button.create, #info-panel.new button.cancel {
+  float: left;
+  display: block;
+  width: 50%;
+}
+
+#info-panel.update button.update, #info-panel.update button.cancel, #info-panel.update button.delete {
+  float: left;
+  display: block;  
+  width: 50%;
+}
+
+#info-panel button.create, #info-panel button.update{
+    background: #74be00;
+}
+
+#info-panel button.cancel {
+  background: #ccc;
+}
+
+#info-panel.update button.delete {
+  width: 100%;
+  background: #c21717;
+}

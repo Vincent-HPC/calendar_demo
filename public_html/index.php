@@ -29,15 +29,15 @@
 
 </div>
 
-<div id="info-panel">
+<div id="info-panel" class="update" >
   <div class="close">x</div>
   <div class="title">
-    <label>Event</label>
+    <label>event</label>
     <div contenteditable="true"></div>
   </div>
   <div class="time-picker">
     <div class="selected-date">
-      <span class="month">10</span><span class="date">20</span>
+      <span class="month">10</span>/<span class="date">20</span>
     </div>
     <div class="from">
       <label for="from">from</label><br>
@@ -51,9 +51,8 @@
   <div class="description">
     <label>description</label><br>
     <textarea name="description" id="description"></textarea>
-    <div id="description" contenteditable="true"></div>
   </div>
-  <div class="buttons">
+  <div class="buttons clearfix">
     <!-- use css to do 2 cases -->
     <button class="create">create</button>
     <button class="update">udpate</button>
