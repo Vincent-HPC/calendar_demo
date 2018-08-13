@@ -31,17 +31,32 @@
 
 }
 
+.event {
+  background: orange;
+    color: white;
+    padding: 0 6px;
+    border-radius: 12px;
+}
 
+.event .title{
+  float: left;
+}
+.event .from{
+  float: right;
+}
 
 
 /* info-panel */
 #info-panel {
+  display: none;
   position: fixed;
-    top: 60px;
-    right: 60px;
-    width: 280px;
-    background-color: white;
-    border: 1px solid #ccc;
+  width: 280px;
+  background-color: white;
+  border: 1px solid #ccc;
+}
+
+#info-panel.open {
+  display: block;
 }
 
 #info-panel .close {
