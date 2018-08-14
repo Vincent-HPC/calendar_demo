@@ -2,18 +2,32 @@ $(document).ready(function () {
 
   var panel = {
     el: '#info-panel', //el means element
+    selectedDateBlock: null,
+    init: function (isNew, e) {
+
+      panel.clear();
+      panel.updateDate(e);
+
+      if (isNew) {
+        $(panel.el).addClass('new').removeClass('update');
+        panel.selectedDateBlock = $(e.currentTarget);
+      } else {
+        $(panel.el).addClass('update').removeClass('new');
+        panel.selectedDateBlock = $(e.currentTarget).closest('.date-block');
+      }
+    },
+    clear: function () {
+      $(panel.el).find('input').val('');
+      $(panel.el).find('textarea').val('');
+    },
     open: function (isNew, e) {
+      panel.init(isNew, e);
+
       $(panel.el).addClass('open').css({
         top: e.pageY + 'px',
         left: e.pageX + 'px',
       }).find('.title [contenteditable]').focus();
 
-      panel.updateDate(e);
-
-      if (isNew)
-        $(panel.el).addClass('new').removeClass('update');
-      else
-        $(panel.el).addClass('update').removeClass('new');
     },
     close: function (e) {
       $(panel.el).removeClass('open');
@@ -30,7 +44,8 @@ $(document).ready(function () {
 
       $(panel.el).find('.month').text(month);
       $(panel.el).find('.date').text(date);
-
+      $(panel.el).find('[name="month"]').val(month);
+      $(panel.el).find('[name="date"]').val(date);
     },
 
   };
@@ -44,10 +59,32 @@ $(document).ready(function () {
       panel.open(false, e);
     });
 
-  $('#info-panel')
+  $(panel.el)
     .on('click', 'button', function (e) {
       if ($(this).is('.create')) {
+        // collect data
+        var data = $(panel.el).find('form').serialize();
 
+        // AJAX call - create API
+        // $.post("event/create.php", data,
+        //   function (data, textStatus, jqXHR) {
+
+        //   }
+        // );
+
+        // insert into events
+        var source = $('#event-template').html();
+        var eventTemplate = Handlebars.compile(source);
+        var event = {
+          id: 1,
+          title: "title",
+          start_time: "10:20",
+        };
+        var eventUI = eventTemplate(event);
+
+        // TODO: insert with from time order
+        panel.selectedDateBlock.find('.events').append(eventUI);
+        panel.close();
       }
 
       if ($(this).is('.update')) {
@@ -65,7 +102,5 @@ $(document).ready(function () {
     .on('click', '.close', function (e) {
       $('button.cancel').click();
     });
-
-
 
 });

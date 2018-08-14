@@ -1,5 +1,6 @@
 <?php include('header.php') ?>
 <?php include('data.php') ?>
+<?php include('template.php') ?>
 
 
 <div id="calendar" data-year="<?= date('Y') ?>"  data-month="<?= date('m') ?>">
@@ -36,37 +37,43 @@
 
 <div id="info-panel" class="update" >
   <div class="close">x</div>
-  <div class="title">
-    <label>event</label>
-    <div contenteditable="true"></div>
-  </div>
-  <div class="time-picker">
-    <div class="selected-date">
-      <span class="month"></span>/<span class="date"></span>
+  
+  <form>
+    <div class="title">
+      <label>event</label><br>
+      <input type="text" name="title">
     </div>
-    <div class="from">
-      <label for="from">from</label><br>
-      <input id="from" type="time" id="start_time">
+    <div class="time-picker">
+      <div class="selected-date">
+        <span class="month"></span>/<span class="date"></span>
+        <input type="hidden" name="month">
+        <input type="hidden" name="date">
+      </div>
+      <div class="from">
+        <label for="from">from</label><br>
+        <input id="from" type="time" id="start_time">
+      </div>
+      <div class="to">
+        <label for="to">to</label><br>
+        <input id="to" type="time" id="start_time">
+      </div>
     </div>
-    <div class="to">
-      <label for="to">to</label><br>
-      <input id="to" type="time" id="start_time">
+    <div class="description">
+      <label>description</label><br>
+      <textarea name="description" id="description"></textarea>
     </div>
-  </div>
-  <div class="description">
-    <label>description</label><br>
-    <textarea name="description" id="description"></textarea>
-  </div>
+  </form>
+
+  
   <div class="buttons clearfix">
-    <!-- use css to do 2 cases -->
     <button class="create">create</button>
     <button class="update">udpate</button>
     <button class="cancel">cancel</button>
     <button class="delete">delete</button>
-    <!-- create: create / cancel -->
-    <!-- update: update / cancel / delete -->
   </div>
 </div>
+
+
 
   
 <?php include('footer.php') ?>
