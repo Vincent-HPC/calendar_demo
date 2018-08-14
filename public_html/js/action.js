@@ -1,8 +1,12 @@
 $(document).ready(function () {
 
+  var source = $('#event-template').html();
+  var eventTemplate = Handlebars.compile(source);
+
   var panel = {
     el: '#info-panel', //el means element
     selectedDateBlock: null,
+    selectedEvent: null,
     init: function (isNew, e) {
 
       panel.clear();
@@ -39,11 +43,12 @@ $(document).ready(function () {
       else // dblclick .event
         var date = $(e.currentTarget).closest('.date-block').data('date');
 
-      // get month from #calendar
+      var year = $('#calendar').data('year');
       var month = $('#calendar').data('month');
 
       $(panel.el).find('.month').text(month);
       $(panel.el).find('.date').text(date);
+      $(panel.el).find('[name="year"]').val(year);
       $(panel.el).find('[name="month"]').val(month);
       $(panel.el).find('[name="date"]').val(date);
     },
@@ -57,6 +62,12 @@ $(document).ready(function () {
     .on('dblclick', '.event', function (e) {
       e.stopPropagation();
       panel.open(false, e);
+
+      panel.selectedEvent = $(e.currentTarget);
+
+      var id = $(this).data('id');
+      // AJAX call - get event detail
+      // load detail back to panel
     });
 
   $(panel.el)
@@ -66,29 +77,25 @@ $(document).ready(function () {
         var data = $(panel.el).find('form').serialize();
 
         // AJAX call - create API
-        // $.post("event/create.php", data,
-        //   function (data, textStatus, jqXHR) {
+        $.post("event/create.php", data,
+          function (data, textStatus, jqXHR) {
+            // insert into events
+            var eventUI = eventTemplate(data);
 
-        //   }
-        // );
+            // TODO: insert with from time order
+            panel.selectedDateBlock.find('.events').append(eventUI);
+            panel.close();
+          }
+        ).fail(function () { // use fail() to process failed case
 
-        // insert into events
-        var source = $('#event-template').html();
-        var eventTemplate = Handlebars.compile(source);
-        var event = {
-          id: 1,
-          title: "title",
-          start_time: "10:20",
-        };
-        var eventUI = eventTemplate(event);
-
-        // TODO: insert with from time order
-        panel.selectedDateBlock.find('.events').append(eventUI);
-        panel.close();
+        });
       }
 
       if ($(this).is('.update')) {
-
+        // TODO
+        // collect from data  
+        // AJAX call - update.php with id
+        // update event UI
       }
 
       if ($(this).is('.cancel')) {
@@ -96,7 +103,12 @@ $(document).ready(function () {
       }
 
       if ($(this).is('.delete')) {
-
+        // id
+        var id = panel.selectedEvent.data('id');
+        // AJAX call - delete.php with id
+        // remove event from calendar
+        panel.selectedEvent.remove();
+        panel.close();
       }
     })
     .on('click', '.close', function (e) {
