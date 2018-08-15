@@ -80,6 +80,14 @@
   padding: 10px;
 }
 
+.error-msg {
+  display: none;
+}
+
+.error-msg.open {
+  display: block;
+}
+
 .selected-date {
   text-align: center;
   font-size: 1.4rem;

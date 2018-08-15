@@ -27,6 +27,8 @@ $(document).ready(function () {
     open: function (isNew, e) {
       panel.init(isNew, e);
 
+      panel.hideError();
+
       $(panel.el).addClass('open').css({
         top: e.pageY + 'px',
         left: e.pageX + 'px',
@@ -52,7 +54,13 @@ $(document).ready(function () {
       $(panel.el).find('[name="month"]').val(month);
       $(panel.el).find('[name="date"]').val(date);
     },
-
+    showError: function (msg) {
+      $(panel.el).find('.error-msg').addClass('open')
+        .find('.alert').text(msg);
+    },
+    hideError: function () {
+      $(panel.el).find('.error-msg').removeClass('open');
+    },
   };
 
   $('.date-block')
@@ -73,22 +81,18 @@ $(document).ready(function () {
   $(panel.el)
     .on('click', 'button', function (e) {
       if ($(this).is('.create')) {
-        // collect data
         var data = $(panel.el).find('form').serialize();
-
-        // AJAX call - create API
-        $.post("event/create.php", data,
-          function (data, textStatus, jqXHR) {
-            // insert into events
+        $.post("event/create.php", data)
+          .done(function (data, textStatus, jqXHR) {
             var eventUI = eventTemplate(data);
 
             // TODO: insert with from time order
             panel.selectedDateBlock.find('.events').append(eventUI);
             panel.close();
-          }
-        ).fail(function () { // use fail() to process failed case
-
-        });
+          })
+          .fail(function (jqXHR, textStatus, errorThrown) { // use fail() to process failed case
+            panel.showError(jqXHR.responseText);
+          });
       }
 
       if ($(this).is('.update')) {

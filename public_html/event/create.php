@@ -1,7 +1,7 @@
 <?php  
 header('Content-Type: application/json; charset=utf-8');
 include('../../db.php');
-
+include('../HttpStatusCode.php');
 
 try {
   $pdo = new PDO("mysql:host=$db[host];dbname=$db[dbname];port=$db[port];charset=$db[charset]",
@@ -10,6 +10,19 @@ try {
   echo "Database connection failed.";
   exit;
 }
+
+
+// validation
+// title
+if(empty($_POST['title'])) {
+  new HttpStatusCode(400, 'Title cannot be blank');
+}
+// time range
+$startTime = explode(':',$_POST['start_time']);
+$endTime = explode(':',$_POST['end_time']);
+if($startTime[0]>$endTime[0] || ($startTime[0]==$endTime[0] && $startTime[1]>$endTime[1]))
+  new HttpStatusCode(400, 'Time range error.');
+
 
 $sql = 'INSERT INTO events (title, year, month, `date`, start_time, end_time, description)
         VALUES (:title, :year, :month, :date, :start_time, :end_time, :description)';

@@ -43,6 +43,11 @@
       <label>event</label><br>
       <input type="text" name="title">
     </div>
+    <div class="error-msg">
+        <div class="alert alert-danger">
+          error
+        </div>
+    </div>
     <div class="time-picker">
       <div class="selected-date">
         <span class="month"></span>/<span class="date"></span>
