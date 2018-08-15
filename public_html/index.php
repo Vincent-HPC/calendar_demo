@@ -23,7 +23,7 @@
       <div class="date-block <?= (is_null($date))? 'empty' : '' ?>" data-date="<?= $date ?>">
         <div class="date"><?= $date ?></div>
         <div class="events">
-          <div class="event clearfix">
+          <div class="event clearfix" data-id="..." data-from="10:00">
             <div class="title">title</div>
             <div class="from">10:00</div>
           </div>

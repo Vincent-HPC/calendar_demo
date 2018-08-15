@@ -24,6 +24,7 @@
   border-left: 1px solid #ccc;
   height: 15vh;
   padding: 4px;
+  overflow: auto;
 }
 
 .date-block.empty {

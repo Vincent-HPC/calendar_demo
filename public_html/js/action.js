@@ -87,7 +87,24 @@ $(document).ready(function () {
             var eventUI = eventTemplate(data);
 
             // TODO: insert with from time order
-            panel.selectedDateBlock.find('.events').append(eventUI);
+            panel.selectedDateBlock.find('.event').each(function (index, event) {
+              // each loop check
+              // if event is later than new one
+              // insert new one before the event
+              // end
+              var eventFromTime = $(event).data('from').split(':'); // 10:00 --> ['10' , '00']
+              var newEventFromTime = data.start_time.split(':');
+              if (eventFromTime[0] > newEventFromTime[0] || (eventFromTime[0] == newEventFromTime[0] && eventFromTime[1] > newEventFromTime[1])) {
+                $(event).before(eventUI);
+                return false;
+              }
+            });
+
+            if (panel.selectedDateBlock.find('.event[data-id="' + data.id + '"]').length == 0)
+              panel.selectedDateBlock.find('.events').append(eventUI);
+            // if no one is later than me
+            // append new one to .events
+
             panel.close();
           })
           .fail(function (jqXHR, textStatus, errorThrown) { // use fail() to process failed case
