@@ -37,6 +37,7 @@
   <div class="close">x</div>
   
   <form>
+    <input type="hidden" name="id">
     <div class="title">
       <label>event</label><br>
       <input type="text" name="title">

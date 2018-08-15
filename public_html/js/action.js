@@ -83,32 +83,41 @@ $(document).ready(function () {
       panel.selectedEvent = $(e.currentTarget);
 
       var id = $(this).data('id');
+      // AJAX call - get event detail
       $.post('event/read.php', {
           id: id
         },
         function (data, textStatus, jqXHR) {
           // console.log(data);           val(data.title) or val(data['title'])
+          // load detail back to panel
+          $(panel.el).find('[name="id"]').val(data.id);
           $(panel.el).find('[name="title"]').val(data.title);
           $(panel.el).find('[name="start_time"]').val(data.start_time);
           $(panel.el).find('[name="end_time"]').val(data.end_time);
           $(panel.el).find('[name="description"]').val(data.description);
 
-
         }).fail(function (xhr) {
         panel.showError(xhr.responseText);
       });
-      // AJAX call - get event detail
-      // load detail back to panel
     });
 
 
 
   $(panel.el)
     .on('click', 'button', function (e) {
-      if ($(this).is('.create')) {
+      if ($(this).is('.create') || $(this).is('.update')) {
+        if ($(this).is('.create'))
+          var action = 'event/create.php';
+        if ($(this).is('.update'))
+          var action = 'event/update.php';
+
         var data = $(panel.el).find('form').serialize();
-        $.post("event/create.php", data)
+        $.post(action, data)
           .done(function (data, textStatus, jqXHR) {
+            if ($(e.currentTarget).is('.update')) // cannot use 'this' cuz here point to function (data, textStatus, jqXHR)
+              panel.selectedEvent.remove();
+
+
             var eventUI = eventTemplate(data);
 
             // TODO: insert with from time order
@@ -137,14 +146,14 @@ $(document).ready(function () {
           });
       }
 
-      if ($(this).is('.update')) {
+      // if ($(this).is('.update')) {
 
-        // TODO
-        // collect from data  
-
-        // AJAX call - update.php with id
-        // update event UI
-      }
+      //   // TODO
+      //   // collect from data  
+      //   var event = $(panel.el).find('form').serialize();
+      //   // AJAX call - update.php with id
+      //   // update event UI
+      // }
 
       if ($(this).is('.cancel')) {
         panel.close();
