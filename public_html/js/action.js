@@ -3,6 +3,13 @@ $(document).ready(function () {
   var source = $('#event-template').html();
   var eventTemplate = Handlebars.compile(source);
 
+  $.each(events, function (index, event) {
+    var eventUI = eventTemplate(event);
+
+    var date = event['date']; //ex:    [data-date="2"]
+    $('#calendar').find('.date-block[data-date="' + date + '"]').find('.events').append(eventUI);
+  });
+
   var panel = {
     el: '#info-panel', //el means element
     selectedDateBlock: null,
