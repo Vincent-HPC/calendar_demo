@@ -27,7 +27,7 @@ foreach ($events as $key => $event) {
   $events[$key]['start_time'] = substr($event['start_time'], 0, 5);
 }
 
-$dates = [];
+$dates = []; // here is sent to index.php
 for ($i = 1; $i <= 31; $i++) {
   $dates[] = $i;
 }
@@ -39,7 +39,7 @@ $dates[] = null;
 ?>
 
 
-<script>
+<script> // here is sent to action.js
   // print to front-end
   var events = <?= json_encode($events, JSON_NUMERIC_CHECK) ?>;
 

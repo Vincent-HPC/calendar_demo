@@ -70,6 +70,8 @@ $(document).ready(function () {
     },
   };
 
+
+
   $('.date-block')
     .dblclick(function (e) {
       panel.open(true, e);
@@ -81,9 +83,25 @@ $(document).ready(function () {
       panel.selectedEvent = $(e.currentTarget);
 
       var id = $(this).data('id');
+      $.post('event/read.php', {
+          id: id
+        },
+        function (data, textStatus, jqXHR) {
+          // console.log(data);           val(data.title) or val(data['title'])
+          $(panel.el).find('[name="title"]').val(data.title);
+          $(panel.el).find('[name="start_time"]').val(data.start_time);
+          $(panel.el).find('[name="end_time"]').val(data.end_time);
+          $(panel.el).find('[name="description"]').val(data.description);
+
+
+        }).fail(function (xhr) {
+        panel.showError(xhr.responseText);
+      });
       // AJAX call - get event detail
       // load detail back to panel
     });
+
+
 
   $(panel.el)
     .on('click', 'button', function (e) {
@@ -120,8 +138,10 @@ $(document).ready(function () {
       }
 
       if ($(this).is('.update')) {
+
         // TODO
         // collect from data  
+
         // AJAX call - update.php with id
         // update event UI
       }

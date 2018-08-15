@@ -1,6 +1,7 @@
 <?php include('header.php') ?>
 <?php include('data.php') ?>
 <?php include('template.php') ?>
+<?php include('read.php')?>
 
 
 <div id="calendar" data-year="<?= date('Y') ?>"  data-month="<?= date('m') ?>">
