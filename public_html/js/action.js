@@ -145,27 +145,26 @@ $(document).ready(function () {
             panel.showError(jqXHR.responseText);
           });
       }
-
-      // if ($(this).is('.update')) {
-
-      //   // TODO
-      //   // collect from data  
-      //   var event = $(panel.el).find('form').serialize();
-      //   // AJAX call - update.php with id
-      //   // update event UI
-      // }
-
       if ($(this).is('.cancel')) {
         panel.close();
       }
-
       if ($(this).is('.delete')) {
         // id
         var id = panel.selectedEvent.data('id');
         // AJAX call - delete.php with id
-        // remove event from calendar
-        panel.selectedEvent.remove();
-        panel.close();
+
+        var result = confirm('Do you really want to delete this event?');
+
+        if (result) {
+          $.post("event/delete.php", {
+              id: id
+            })
+            .done(function () { // remove event from calendar
+              panel.selectedEvent.remove();
+              panel.close();
+            });
+        }
+
       }
     })
     .on('click', '.close', function (e) {
