@@ -27,15 +27,30 @@ foreach ($events as $key => $event) {
   $events[$key]['start_time'] = substr($event['start_time'], 0, 5);
 }
 
-$dates = []; // here is sent to index.php
-for ($i = 1; $i <= 31; $i++) {
+// how many days in this month?
+$days = cal_days_in_month (CAL_GREGORIAN ,$month ,$year );
+// first day is what day in the week?
+$firstDateOfTheMonth = new DateTime("$year-$month-1");
+// last day is what day in the week?
+$lastDateOfTheMonth = new DateTime("$year-$month-$days");
+
+// calendar gray padding~
+$frontPadding = $firstDateOfTheMonth->format('w'); // 0 - 6
+$backPadding = 6 - $lastDateOfTheMonth->format('w'); 
+
+// fill up front padding
+for($i=0; $i < $frontPadding; $i++) {
+  $dates[] = null;
+}
+// fill up 1-31
+for($i=1; $i <=$days; $i++) {
   $dates[] = $i;
 }
+// fill up back padding
+for($i=0; $i < $backPadding; $i++) {
+  $dates[] = null;
+}
 
-$dates[] = null;
-$dates[] = null;
-$dates[] = null;
-$dates[] = null;
 ?>
 
 
